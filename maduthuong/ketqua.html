@@ -45,6 +45,12 @@
         margin-top: 10px;
       }
 
+      .phone-display {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #34495e;
+      }
+
       @media (max-width: 425px) {
         .container {
           padding: 30px 20px;
@@ -60,23 +66,33 @@
         }
 
         .random-number {
-          font-size: 150px;
+          font-size: 120px;
+        }
+
+        .phone-display {
+          font-size: 16px;
         }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- Thêm logo chương trình -->
       <img src="https://static.plo.vn/v4/web/styles/img/plo-logo.svg" alt="Logo Chương Trình" class="logo" />
       <h2>🎉 Số dự thưởng của bạn là:</h2>
       <div id="randomNumber" class="random-number">--</div>
+      <div id="phoneDisplay" class="phone-display"></div>
     </div>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const code = params.get("code");
+      const phone = params.get("phone");
+
       document.getElementById("randomNumber").textContent = code || "??";
+
+      if (phone) {
+        document.getElementById("phoneDisplay").textContent = "Số điện thoại: " + phone;
+      }
     </script>
   </body>
 </html>

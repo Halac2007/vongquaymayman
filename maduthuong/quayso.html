@@ -45,7 +45,7 @@
       label {
         display: block;
         margin-bottom: 8px;
-        font-size: 18px;
+        font-size: 16px;
         color: red;
         font-style: italic;
       }
@@ -122,7 +122,7 @@
         const randomNumber = Math.floor(Math.random() * 300) + 1;
         const formatted = String(randomNumber).padStart(2, "0");
 
-        window.location.href = `ketqua.html?code=${formatted}`;
+        window.location.href = `ketqua.html?code=${formatted}&phone=${encodeURIComponent(phone)}`;
       });
     </script>
   </body>
