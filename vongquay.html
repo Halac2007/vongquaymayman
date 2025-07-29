@@ -150,6 +150,7 @@
 
       let isSpinning = false;
       let currentRotation = 0;
+      let drawnNumbers = []; // Lưu các số đã quay
 
       // Tự động phát nhạc nền khi tải trang
       window.addEventListener("load", () => {
@@ -159,8 +160,26 @@
         });
       });
 
+      function getUniqueLuckyNumber() {
+        if (drawnNumbers.length >= 301) {
+          alert("Đã quay hết tất cả các số từ 00 đến 300.");
+          return null;
+        }
+
+        let number;
+        do {
+          number = Math.floor(Math.random() * 301); // từ 0 đến 300
+        } while (drawnNumbers.includes(number));
+
+        drawnNumbers.push(number);
+        return number;
+      }
+
       spinBtn.addEventListener("click", () => {
         if (isSpinning) return;
+
+        const luckyNumber = getUniqueLuckyNumber();
+        if (luckyNumber === null) return;
 
         isSpinning = true;
         result.textContent = "--";
@@ -179,7 +198,6 @@
         }
         spinSound.play();
 
-        const luckyNumber = Math.floor(Math.random() * 300) + 1;
         const rounds = 4 + Math.floor(Math.random() * 4);
         const degreeOffset = Math.floor(Math.random() * 360);
         const spinDeg = rounds * 360 + degreeOffset;
@@ -189,7 +207,9 @@
         wheel.style.transform = `rotate(${currentRotation}deg)`;
 
         setTimeout(() => {
-          result.textContent = luckyNumber.toString().padStart(2, "0");
+          // Hiển thị kết quả: nếu < 100 thì hiển thị 2 chữ số, nếu >= 100 thì hiển thị bình thường
+          result.textContent = luckyNumber < 100 ? luckyNumber.toString().padStart(2, "0") : luckyNumber.toString();
+
           result.style.animation = "none";
           void result.offsetWidth;
           result.style.animation = "popIn 0.3s ease-out";

@@ -98,20 +98,33 @@
   </head>
   <body>
     <div class="container">
-      <!-- Thêm logo chương trình tại đây -->
       <img src="https://static.plo.vn/v4/web/styles/img/plo-logo.svg" alt="Logo Chương Trình" class="logo" />
       <h1>📞 NHẬP SỐ ĐIỆN THOẠI VÀ QUAY SỐ DỰ THƯỞNG</h1>
       <form id="form">
-        <label for="phone">(*) Mỗi người tham gia chỉ được sử dụng một số điện thoại duy nhất để quay số dự thưởng. </label>
+        <label for="phone">(*) Mỗi người tham gia chỉ được sử dụng một số điện thoại duy nhất để quay số dự thưởng.</label>
         <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0123456789" />
         <button type="submit">🎯 QUAY SỐ NGAY</button>
       </form>
     </div>
 
     <script>
+      const usedNumbers = JSON.parse(localStorage.getItem("usedNumbers") || "[]");
+      const phoneResults = JSON.parse(localStorage.getItem("phoneResults") || "{}");
+
+      function generateUniqueNumber() {
+        for (let i = 0; i <= 300; i++) {
+          const rand = Math.floor(Math.random() * 301); // 0 - 300
+          if (!usedNumbers.includes(rand)) {
+            usedNumbers.push(rand);
+            localStorage.setItem("usedNumbers", JSON.stringify(usedNumbers));
+            return rand;
+          }
+        }
+        return null; // All numbers used
+      }
+
       document.getElementById("form").addEventListener("submit", function (e) {
         e.preventDefault();
-
         const phone = document.getElementById("phone").value.trim();
 
         if (!/^0\d{9}$/.test(phone)) {
@@ -119,10 +132,25 @@
           return;
         }
 
-        const randomNumber = Math.floor(Math.random() * 300) + 1;
-        const formatted = String(randomNumber).padStart(2, "0");
+        // Nếu số điện thoại đã quay rồi → chuyển tiếp đến kết quả cũ
+        if (phoneResults[phone]) {
+          const oldCode = phoneResults[phone].toString().padStart(2, "0");
+          window.location.href = `ketqua.html?code=${oldCode}&phone=${encodeURIComponent(phone)}`;
+          return;
+        }
 
-        window.location.href = `ketqua.html?code=${formatted}&phone=${encodeURIComponent(phone)}`;
+        const randomNumber = generateUniqueNumber();
+
+        if (randomNumber === null) {
+          alert("Tất cả các số dự thưởng đã được sử dụng.");
+          return;
+        }
+
+        phoneResults[phone] = randomNumber;
+        localStorage.setItem("phoneResults", JSON.stringify(phoneResults));
+
+        const formattedCode = String(randomNumber).padStart(2, "0");
+        window.location.href = `ketqua.html?code=${formattedCode}&phone=${encodeURIComponent(phone)}`;
       });
     </script>
   </body>
