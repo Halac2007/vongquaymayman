@@ -185,7 +185,7 @@
         const spinDeg = rounds * 360 + degreeOffset;
         currentRotation += spinDeg;
 
-        wheel.style.transition = "transform 4s ease-in-out";
+        wheel.style.transition = "transform 8s ease-in-out";
         wheel.style.transform = `rotate(${currentRotation}deg)`;
 
         setTimeout(() => {
@@ -218,7 +218,7 @@
           }
 
           isSpinning = false;
-        }, 4100);
+        }, 8100);
       });
     </script>
   </body>
