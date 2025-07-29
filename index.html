@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quay Số Dự Thưởng</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #e3f2fd, #ffffff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+
+      .qr-box img {
+        margin-top: 10px;
+        width: 150px;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+
+      input[type="tel"] {
+        padding: 10px;
+        width: 100%;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #2e86de;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #1b4f72;
+      }
+
+      .result {
+        margin-top: 30px;
+        font-size: 18px;
+        color: #2c3e50;
+      }
+
+      .random-number {
+        margin-top: 10px;
+        font-size: 40px;
+        font-weight: bold;
+        color: #e74c3c;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎁 Quay Số Dự Thưởng 🎉</h1>
+
+      <div class="qr-box">
+        <p>📱 Vui lòng quét mã QR để tham gia</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://example.com&size=150x150" alt="QR Code" />
+      </div>
+
+      <form id="form">
+        <label for="phone">Nhập số điện thoại của bạn:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0123456789" />
+        <button type="submit">Quay số</button>
+      </form>
+
+      <div id="result" class="result hidden">
+        <p>Số dự thưởng của bạn là:</p>
+        <div id="randomNumber" class="random-number">----</div>
+      </div>
+    </div>
+    <script>
+      document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!/^0\d{9}$/.test(phone)) {
+          alert("Vui lòng nhập đúng số điện thoại (10 số bắt đầu bằng 0).");
+          return;
+        }
+
+        const resultBox = document.getElementById("result");
+        const display = document.getElementById("randomNumber");
+
+        // 🔄 Tạo số ngẫu nhiên từ 1 đến 300
+        const randomNumber = Math.floor(Math.random() * 300) + 1;
+
+        // Hiển thị hiệu ứng giả lập quay số
+        display.textContent = "••";
+        resultBox.classList.remove("hidden");
+
+        let count = 0;
+        const interval = setInterval(() => {
+          const tempNum = Math.floor(Math.random() * 300) + 1;
+          display.textContent = String(tempNum).padStart(2, "0"); // Đảm bảo ít nhất 2 chữ số
+          count++;
+          if (count >= 10) {
+            clearInterval(interval);
+            display.textContent = String(randomNumber).padStart(2, "0"); // Hiển thị kết quả cuối cùng
+          }
+        }, 100);
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
