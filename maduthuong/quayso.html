@@ -46,7 +46,8 @@
         display: block;
         margin-bottom: 8px;
         font-size: 18px;
-        color: #333;
+        color: red;
+        font-style: italic;
       }
 
       input[type="tel"] {
@@ -101,6 +102,7 @@
       <img src="https://static.plo.vn/v4/web/styles/img/plo-logo.svg" alt="Logo Chương Trình" class="logo" />
       <h1>📞 NHẬP SỐ ĐIỆN THOẠI VÀ QUAY SỐ DỰ THƯỞNG</h1>
       <form id="form">
+        <label for="phone">(*) Mỗi người tham gia chỉ được sử dụng một số điện thoại duy nhất để quay số dự thưởng. </label>
         <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0123456789" />
         <button type="submit">🎯 QUAY SỐ NGAY</button>
       </form>
