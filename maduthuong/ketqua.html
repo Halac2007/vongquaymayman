@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kết Quả Dự Thưởng</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: radial-gradient(circle, #ffffff, #d6eaff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .logo {
+        width: 100px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 22px;
+      }
+
+      .random-number {
+        font-size: 64px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 425px) {
+        .container {
+          padding: 30px 20px;
+        }
+
+        .logo {
+          width: 80px;
+          margin-bottom: 16px;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        .random-number {
+          font-size: 48px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Thêm logo chương trình -->
+      <img src="https://static.plo.vn/v4/web/styles/img/plo-logo.svg" alt="Logo Chương Trình" class="logo" />
+      <h2>🎉 Số dự thưởng của bạn là:</h2>
+      <div id="randomNumber" class="random-number">--</div>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      document.getElementById("randomNumber").textContent = code || "??";
+    </script>
+  </body>
+</html>

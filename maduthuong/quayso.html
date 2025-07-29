@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quay Số</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #e3f2fd, #ffffff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        background: #fff;
+        padding: 30px 20px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .logo {
+        width: 100px;
+        height: auto;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      input[type="tel"] {
+        padding: 12px;
+        width: 100%;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 18px;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #2e86de;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #1b4f72;
+      }
+
+      @media (max-width: 425px) {
+        h1 {
+          font-size: 20px;
+        }
+
+        input[type="tel"],
+        button {
+          font-size: 16px;
+        }
+
+        .container {
+          padding: 24px 16px;
+        }
+
+        .logo {
+          width: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Thêm logo chương trình tại đây -->
+      <img src="https://static.plo.vn/v4/web/styles/img/plo-logo.svg" alt="Logo Chương Trình" class="logo" />
+      <h1>📞 Nhập Số Điện Thoại & Quay Số</h1>
+      <form id="form">
+        <label for="phone">Nhập số điện thoại của bạn:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0123456789" />
+        <button type="submit">🎯 Quay Số Ngay</button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!/^0\d{9}$/.test(phone)) {
+          alert("Vui lòng nhập đúng số điện thoại (10 số bắt đầu bằng 0).");
+          return;
+        }
+
+        const randomNumber = Math.floor(Math.random() * 300) + 1;
+        const formatted = String(randomNumber).padStart(2, "0");
+
+        window.location.href = `ketqua.html?code=${formatted}`;
+      });
+    </script>
+  </body>
+</html>

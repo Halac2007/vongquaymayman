@@ -3,16 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quay Số Dự Thưởng</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Quét QR</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #e3f2fd, #ffffff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        text-align: center;
+      }
+      .qr-box img {
+        margin-top: 10px;
+        width: 150px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>🎁 Quay Số Dự Thưởng 🎉</h1>
-
-      <div id="app"></div>
+      <div class="qr-box">
+        <p>📱 Vui lòng quét mã QR để tham gia</p>
+        <!-- Trỏ đến file quayso.html -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://example.com/quayso.html&size=150x150" alt="QR Code" />
+      </div>
     </div>
-
-    <script src="script.js"></script>
   </body>
 </html>
