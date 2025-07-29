@@ -3,136 +3,223 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quay Số Dự Thưởng</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Vòng Quay May Mắn</title>
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(to right, #e3f2fd, #ffffff);
+        background: radial-gradient(circle at center, #ffeaa7, #fab1a0);
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
+        margin: 0;
+        overflow: hidden;
       }
 
       .container {
-        background: #fff;
-        padding: 30px;
-        border-radius: 16px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
+        display: flex;
+        align-items: center;
+        gap: 60px;
+      }
+
+      .left-panel {
+        text-align: center;
+      }
+
+      .right-panel {
         text-align: center;
       }
 
       h1 {
-        margin-bottom: 20px;
-        color: #2c3e50;
+        color: #2d3436;
+        margin-bottom: 30px;
+        font-size: 50px;
+        text-shadow: 1px 1px 2px #fff;
       }
 
-      .qr-box img {
-        margin-top: 10px;
-        width: 150px;
+      .wheel-wrapper {
+        position: relative;
+        width: 580px;
+        height: 580px;
+        margin: 0 auto;
       }
 
-      form {
-        margin-top: 20px;
-      }
-
-      input[type="tel"] {
-        padding: 10px;
+      .wheel {
         width: 100%;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
+        height: 100%;
+        border-radius: 50%;
+        border: 12px solid #fff;
+        background: conic-gradient(
+          #e79600 0deg 45deg,
+          #0080ff 45deg 90deg,
+          #00ffb7 90deg 135deg,
+          #ff2f00 135deg 180deg,
+          #ffc400 180deg 225deg,
+          #1100ff 225deg 270deg,
+          #ff0059 270deg 315deg,
+          #00ffff 315deg 360deg
+        );
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        transition: transform 4s ease-in-out;
+      }
+
+      .pointer {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 40px;
+        color: #d63031;
+        text-shadow: 1px 1px 2px #fff;
       }
 
       button {
-        padding: 10px 20px;
-        background-color: #2e86de;
-        color: white;
+        margin-top: 40px;
+        padding: 14px 35px;
+        font-size: 20px;
+        font-weight: bold;
         border: none;
-        border-radius: 6px;
-        font-size: 16px;
+        border-radius: 12px;
+        background: linear-gradient(to right, #0984e3, #74b9ff);
+        color: white;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease, background-color 0.3s ease;
       }
 
       button:hover {
-        background-color: #1b4f72;
+        transform: scale(1.05);
+        background: linear-gradient(to right, #74b9ff, #0984e3);
       }
 
       .result {
         margin-top: 30px;
-        font-size: 18px;
-        color: #2c3e50;
+        font-size: 260px;
+        color: #fd3434;
+        font-weight: 900;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        animation: popIn 0.3s ease-out;
       }
 
-      .random-number {
-        margin-top: 10px;
-        font-size: 40px;
-        font-weight: bold;
-        color: #e74c3c;
-      }
-
-      .hidden {
-        display: none;
+      @keyframes popIn {
+        0% {
+          transform: scale(0.6);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>🎁 Quay Số Dự Thưởng 🎉</h1>
+      <div class="left-panel">
+        <img src="https://static.plo.vn/v4/web/styles/img/plo-logo.svg" alt="Logo Chương Trình" style="max-width: 200px; height: auto; margin-bottom: 20px" />
 
-      <div class="qr-box">
-        <p>📱 Vui lòng quét mã QR để tham gia</p>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://example.com&size=150x150" alt="QR Code" />
+        <h1>🎉 VÒNG QUAY MAY MẮN 🎉</h1>
+        <button id="spinBtn">QUAY</button>
+        <div id="result" class="result">--</div>
       </div>
 
-      <form id="form">
-        <label for="phone">Nhập số điện thoại của bạn:</label>
-        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0123456789" />
-        <button type="submit">Quay số</button>
-      </form>
-
-      <div id="result" class="result hidden">
-        <p>Số dự thưởng của bạn là:</p>
-        <div id="randomNumber" class="random-number">----</div>
+      <div class="right-panel">
+        <div class="wheel-wrapper">
+          <div class="pointer">▲</div>
+          <div id="wheel" class="wheel"></div>
+        </div>
       </div>
     </div>
+
+    <audio id="backgroundMusic" loop>
+      <source src="NhacXoSo.mp3" type="audio/mpeg" />
+    </audio>
+
+    <audio id="spinSound">
+      <source src="quayso.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <script>
-      document.getElementById("form").addEventListener("submit", function (e) {
-        e.preventDefault();
+      const wheel = document.getElementById("wheel");
+      const spinBtn = document.getElementById("spinBtn");
+      const result = document.getElementById("result");
+      const backgroundMusic = document.getElementById("backgroundMusic");
+      const spinSound = document.getElementById("spinSound");
 
-        const phone = document.getElementById("phone").value.trim();
+      let isSpinning = false;
+      let currentRotation = 0;
 
-        if (!/^0\d{9}$/.test(phone)) {
-          alert("Vui lòng nhập đúng số điện thoại (10 số bắt đầu bằng 0).");
-          return;
+      // Tự động phát nhạc nền khi tải trang
+      window.addEventListener("load", () => {
+        backgroundMusic.volume = 0.5;
+        backgroundMusic.play().catch((e) => {
+          console.log("Tự động phát nhạc nền bị chặn:", e);
+        });
+      });
+
+      spinBtn.addEventListener("click", () => {
+        if (isSpinning) return;
+
+        isSpinning = true;
+        result.textContent = "--";
+        result.style.animation = "none";
+
+        // Dừng nhạc nền nếu đang phát
+        if (!backgroundMusic.paused) {
+          backgroundMusic.pause();
+          backgroundMusic.currentTime = 0;
         }
 
-        const resultBox = document.getElementById("result");
-        const display = document.getElementById("randomNumber");
+        // Đặt lại và phát âm thanh quay
+        if (!spinSound.paused) {
+          spinSound.pause();
+          spinSound.currentTime = 0;
+        }
+        spinSound.play();
 
-        // 🔄 Tạo số ngẫu nhiên từ 1 đến 300
-        const randomNumber = Math.floor(Math.random() * 300) + 1;
+        const luckyNumber = Math.floor(Math.random() * 300) + 1;
+        const rounds = 4 + Math.floor(Math.random() * 4);
+        const degreeOffset = Math.floor(Math.random() * 360);
+        const spinDeg = rounds * 360 + degreeOffset;
+        currentRotation += spinDeg;
 
-        // Hiển thị hiệu ứng giả lập quay số
-        display.textContent = "••";
-        resultBox.classList.remove("hidden");
+        wheel.style.transition = "transform 4s ease-in-out";
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-        let count = 0;
-        const interval = setInterval(() => {
-          const tempNum = Math.floor(Math.random() * 300) + 1;
-          display.textContent = String(tempNum).padStart(2, "0"); // Đảm bảo ít nhất 2 chữ số
-          count++;
-          if (count >= 10) {
-            clearInterval(interval);
-            display.textContent = String(randomNumber).padStart(2, "0"); // Hiển thị kết quả cuối cùng
+        setTimeout(() => {
+          result.textContent = luckyNumber.toString().padStart(2, "0");
+          result.style.animation = "none";
+          void result.offsetWidth;
+          result.style.animation = "popIn 0.3s ease-out";
+
+          // Dừng âm thanh quay và phát lại nhạc nền
+          spinSound.pause();
+          spinSound.currentTime = 0;
+
+          backgroundMusic.play().catch((e) => {
+            console.log("Không thể phát lại nhạc nền:", e);
+          });
+
+          // Bắn pháo hoa khắp màn hình
+          for (let i = 0; i < 6; i++) {
+            setTimeout(() => {
+              confetti({
+                particleCount: 100,
+                spread: 160,
+                startVelocity: 40,
+                origin: {
+                  x: Math.random(),
+                  y: Math.random() * 0.5,
+                },
+              });
+            }, i * 300);
           }
-        }, 100);
+
+          isSpinning = false;
+        }, 4100);
       });
     </script>
-    <script src="script.js"></script>
   </body>
 </html>
