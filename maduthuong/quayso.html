@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quay Số</title>
+    <title>Quay Số Dự Thưởng</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -102,54 +102,76 @@
       <h1>📞 NHẬP SỐ ĐIỆN THOẠI VÀ QUAY SỐ DỰ THƯỞNG</h1>
       <form id="form">
         <label for="phone">(*) Mỗi người tham gia chỉ được sử dụng một số điện thoại duy nhất để quay số dự thưởng.</label>
-        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0123456789" />
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="0909123456" />
         <button type="submit">🎯 QUAY SỐ NGAY</button>
       </form>
     </div>
 
     <script>
+      // Lấy danh sách số đã dùng và kết quả từ localStorage
       const usedNumbers = JSON.parse(localStorage.getItem("usedNumbers") || "[]");
       const phoneResults = JSON.parse(localStorage.getItem("phoneResults") || "{}");
 
       function generateUniqueNumber() {
-        for (let i = 0; i <= 300; i++) {
-          const rand = Math.floor(Math.random() * 301); // 0 - 300
+        // Thử tìm số ngẫu nhiên chưa sử dụng
+        // Tăng số vòng lặp lên để đảm bảo tìm ra số nếu kho số gần hết
+        for (let i = 0; i < 1000; i++) {
+          // Tạo số từ 1 đến 140
+          const rand = Math.floor(Math.random() * 140) + 1; 
+          
           if (!usedNumbers.includes(rand)) {
             usedNumbers.push(rand);
             localStorage.setItem("usedNumbers", JSON.stringify(usedNumbers));
             return rand;
           }
         }
-        return null; // All numbers used
+        
+        // Nếu random mãi vẫn trùng (trường hợp hiếm khi gần hết số),
+        // chạy vòng lặp vét cạn để tìm số còn trống
+        for (let j = 1; j <= 140; j++) {
+             if (!usedNumbers.includes(j)) {
+                usedNumbers.push(j);
+                localStorage.setItem("usedNumbers", JSON.stringify(usedNumbers));
+                return j;
+             }
+        }
+
+        return null; // Đã hết sạch số từ 1-140
       }
 
       document.getElementById("form").addEventListener("submit", function (e) {
         e.preventDefault();
         const phone = document.getElementById("phone").value.trim();
 
+        // Kiểm tra định dạng số điện thoại (10 số, bắt đầu bằng 0)
         if (!/^0\d{9}$/.test(phone)) {
           alert("Vui lòng nhập đúng số điện thoại (10 số bắt đầu bằng 0).");
           return;
         }
 
-        // Nếu số điện thoại đã quay rồi → chuyển tiếp đến kết quả cũ
+        // Nếu số điện thoại đã từng quay rồi → chuyển tiếp đến kết quả cũ của họ
         if (phoneResults[phone]) {
           const oldCode = phoneResults[phone].toString().padStart(2, "0");
+          // Chuyển sang trang kết quả (giả sử tên file là ketqua.html)
           window.location.href = `ketqua.html?code=${oldCode}&phone=${encodeURIComponent(phone)}`;
           return;
         }
 
+        // Tạo số mới
         const randomNumber = generateUniqueNumber();
 
         if (randomNumber === null) {
-          alert("Tất cả các số dự thưởng đã được sử dụng.");
+          alert("Tất cả các số dự thưởng (1-140) đã được sử dụng hết.");
           return;
         }
 
+        // Lưu kết quả mới cho số điện thoại này
         phoneResults[phone] = randomNumber;
         localStorage.setItem("phoneResults", JSON.stringify(phoneResults));
 
         const formattedCode = String(randomNumber).padStart(2, "0");
+        
+        // Chuyển trang
         window.location.href = `ketqua.html?code=${formattedCode}&phone=${encodeURIComponent(phone)}`;
       });
     </script>
