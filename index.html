@@ -179,7 +179,10 @@
         }
         spinSound.play();
 
-        const luckyNumber = Math.floor(Math.random() * 300) + 1;
+        // --- PHẦN ĐÃ SỬA: Đổi 300 thành 140 ---
+        const luckyNumber = Math.floor(Math.random() * 140) + 1;
+        // -------------------------------------
+        
         const rounds = 4 + Math.floor(Math.random() * 4);
         const degreeOffset = Math.floor(Math.random() * 360);
         const spinDeg = rounds * 360 + degreeOffset;
@@ -189,6 +192,7 @@
         wheel.style.transform = `rotate(${currentRotation}deg)`;
 
         setTimeout(() => {
+          // Hiển thị kết quả (đảm bảo ít nhất 2 chữ số)
           result.textContent = luckyNumber.toString().padStart(2, "0");
           result.style.animation = "none";
           void result.offsetWidth;
